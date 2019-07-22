@@ -8,9 +8,9 @@ export default {
     listPost: [],
     postDetail: {},
     postCreateData: {
-      userId: '1',
-      title: 'xxx',
-      body: 'aaa'
+      userId: '',
+      title: '',
+      body: ''
     }
   },
   effects: {
@@ -25,7 +25,7 @@ export default {
       yield put({ type: 'reduxSavePostDetail', postDetail: postDetail })
     },
     * createPost({ data }, { call, put }) {
-      const postCreateData = yield call(createPost, data)
+      const { postCreateData } = yield call(createPost, data)
       console.log(postCreateData)
       yield put({ type: 'reduxSaveCreatePost', postCreateData: postCreateData })
     }
@@ -34,14 +34,9 @@ export default {
     getFormPost(state, { postCreateData }) {
       console.log('getFormPost Change')
       console.log(postCreateData)
-      const {userId, title, body} = postCreateData
       return {
         ...state,
-        postCreateData: {
-          userId: userId,
-          title: title,
-          body: body
-        }
+        ...postCreateData
       }
     },
     reduxSaveCreatePost(state, { postCreateData }) {
