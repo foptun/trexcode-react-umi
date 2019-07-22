@@ -8,9 +8,9 @@ export default {
     listPost: [],
     postDetail: {},
     postCreateData: {
-      userId: 0,
-      title: '',
-      body: ''
+      userId: '1',
+      title: 'xxx',
+      body: 'aaa'
     }
   },
   effects: {
@@ -32,10 +32,16 @@ export default {
   },
   reducers: {
     getFormPost(state, { postCreateData }) {
-      console.log('countUp Click')
+      console.log('getFormPost Change')
+      console.log(postCreateData)
+      const {userId, title, body} = postCreateData
       return {
         ...state,
-        postCreateData: postCreateData
+        postCreateData: {
+          userId: userId,
+          title: title,
+          body: body
+        }
       }
     },
     reduxSaveCreatePost(state, { postCreateData }) {

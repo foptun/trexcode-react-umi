@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from "dva";
-import { createPost } from "@/services/post.service";
 
 class Index extends Component {
+
   render() {
+    const { getFormPost, createPost } = this.props
     const { postCreateData } = this.props.post
     const { userId, title, body } = postCreateData
+    console.log('postCreateData')
+    console.log(postCreateData)
+    console.log('userId')
+    console.log(userId)
     return (
       <div>
         <h1 className="title is-1">Create Post</h1>
@@ -22,21 +27,22 @@ class Index extends Component {
                 <div className="field">
                   <div className="control">
                     <label className="label">User ID</label>
-                    <input type="text" className="input" placeholder="Input User ID"
-                           onChange={ (e) => createPost(e.target.value) }/>
+                    <input type="text"  className="input" placeholder="Input User ID"
+                       onChange={(e) => getFormPost()} />
                   </div>
                 </div>
                 <div className="field">
                   <div className="control">
                     <label className="label">Title</label>
                     <input type="text" className="input" placeholder="Input Title"
-                           onChange={ (e) => createPost(e.target.value) }/>
+                           onChange={(e) => getFormPost({postCreateData: {userId: userId, title: e.target.value, body: body}})} />
                   </div>
                 </div>
                 <div className="field">
                   <div className="control">
                     <label className="label">Body</label>
-                    <textarea className="textarea" placeholder="Input Body"></textarea>
+                    <textarea className="textarea" placeholder="Input Body"
+                              onChange={(e) => getFormPost({postCreateData: {userId: userId, title: title, body: e.target.value}})}></textarea>
                   </div>
                 </div>
               </form>
@@ -45,7 +51,7 @@ class Index extends Component {
           <footer className="card-footer">
             <div className="card-footer-item">
               <button className="button is-link"
-                      onClick={ () => createPost({userId:1, title: '', body: 'xxx'}) }>Create Post
+                      onClick={ () => createPost({postCreateData: {userId: userId, title: title, body: body}}) }>Create Post
               </button>
             </div>
           </footer>
@@ -67,7 +73,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createPost: (data) => dispatch({ type: 'post/createPost', data })
+    createPost: (data) => dispatch({ type: 'post/createPost', data }),
+    getFormPost: (postCreateData) => {
+      console.log(postCreateData)
+    }
   }
 }
 
