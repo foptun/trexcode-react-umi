@@ -1,4 +1,4 @@
-import { findAllPost, findPostDetail } from "@/services/post.service";
+import { findAllPost, findPostDetail, createPost } from "@/services/post.service";
 
 export default {
   namespace: 'post',
@@ -6,31 +6,55 @@ export default {
     appName: 'React Umi FopTun',
     count: 1,
     listPost: [],
-    postDetail: {}
+    postDetail: {},
+    postCreateData: {
+      userId: 0,
+      title: '',
+      body: ''
+    }
   },
   effects: {
-    * findAllPost(_, {call, put}){
+    * findAllPost(_, { call, put }) {
       const listPost = yield call(findAllPost)
       console.log(listPost)
-      yield put({type: 'reduxSaveListPost', listPost: listPost})
+      yield put({ type: 'reduxSaveListPost', listPost: listPost })
     },
-    * findPostDetail({id}, {call, put}){
+    * findPostDetail({ id }, { call, put }) {
       const postDetail = yield call(findPostDetail, id)
       console.log(postDetail)
-      yield put({type: 'reduxSavePostDetail', postDetail: postDetail})
+      yield put({ type: 'reduxSavePostDetail', postDetail: postDetail })
+    },
+    * createPost({ data }, { call, put }) {
+      const postCreateData = yield call(createPost, data)
+      console.log(postCreateData)
+      yield put({ type: 'reduxSaveCreatePost', postCreateData: postCreateData })
     }
   },
   reducers: {
-    reduxSaveListPost(state, {listPost}){
+    getFormPost(state, { postCreateData }) {
+      console.log('countUp Click')
+      return {
+        ...state,
+        postCreateData: postCreateData
+      }
+    },
+    reduxSaveCreatePost(state, { postCreateData }) {
+      console.log('reduxSaveCreatePost')
+      return {
+        ...state,
+        postCreateData: postCreateData
+      }
+    },
+    reduxSaveListPost(state, { listPost }) {
       console.log('reduxSaveListPost')
-      return{
+      return {
         ...state,
         listPost: listPost
       }
     },
-    reduxSavePostDetail(state, {postDetail}){
+    reduxSavePostDetail(state, { postDetail }) {
       console.log('reduxSavePostDetail')
-      return{
+      return {
         ...state,
         postDetail: postDetail
       }
@@ -43,7 +67,7 @@ export default {
       }
     },
     countDown(state, { number }) {
-      console.log('countDown Click = '+number)
+      console.log('countDown Click = ' + number)
       return {
         ...state,
         count: state.count - number

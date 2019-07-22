@@ -13,3 +13,9 @@ export const findPostDetail = async (id) => {
   console.log(response)
   return response.data
 }
+
+export const createPost = async (data) => {
+  const response = await axios.post(apiUrl + '/posts', data)
+  console.log(response)
+  return response.data
+}

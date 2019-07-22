@@ -31,9 +31,10 @@ class Index extends Component {
     const { countUp, countDown, loading } = this.props
     return (
       <div>
-        <h1>Posts</h1>
-        <h4>App Name: { appName }</h4>
-        <h1>Count: { count }</h1>
+        <h1 className="title is-1">Posts</h1>
+        <Link to="/posts/create" className="button is-link">Add Post</Link>
+        <h4 className="title is-4">App Name: { appName }</h4>
+        <h1 className="title is-1">Count: { count }</h1>
         <button onClick={ () => countDown(1) }>-1</button>
         <button onClick={ () => countUp(1) }>+1</button>
         <br/>
